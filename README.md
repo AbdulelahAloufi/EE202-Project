@@ -26,7 +26,7 @@ The project is organized into six main classes:
 | Class | Responsibility |
 |---|---|
 | CalculatorEngine | Performs basic arithmetic operations |
-| TrigonometryEngine | Inherits from BasicCalculator and performs scientific calculations |
+| TrigonometryEngine | Inherits from CalculatorEngine and performs scientific calculations |
 | MainWindow | Manages the graphical user interface |
 | EquationSolver | Solves two linear equations |
 | FunctionPlotter | Generates mathematical graphs |
@@ -46,8 +46,8 @@ EE202-Scientific-Calculator/
 ├── requirements.txt
 │
 ├── calculator/
-│   ├── basic_calculator.py
-│   └── scientific_calculator.py
+│   ├── CalculatorEngine.py
+│   └── TrignometryEngine.py
 │
 ├── gui/
 │   └── main_window.py
@@ -80,7 +80,20 @@ The project is currently under development. The initial object-oriented design h
 
 Developed by the EE202 project team.
 
-- Member 1: Scientific Calculator
-- Member 2: PyQt GUI and MainWindow
-- Member 3: Equation Solver and Input Validation
-- Member 4: Function Plotting and Testing
+- Member 1: Abdulrahman Alharbi
+- Member 2: Mohammed Alqarni
+- Member 3: Abdulelah Aloufi
+- Member 4: Eyad Alzahrani
+
+## Team Responsibilites
+Checkpoint 1:
+Abdulrahman: Team member responsibilities and FunctionPlotter UML. 
+Mohammed: MainWindow UML and CalculatorEngine UML. 
+Abdulelah: EquationSolver UML and TrigonometryEngine UML.
+Eyad: PyQt GUI and InputValidator UML. 
+
+Checkpoint 2:
+Abdulrahman: Scientific Calculator code.
+Mohammed: Scientific Calculator code.
+Abdulelah: Scientific Calculator GUI.
+Eyad: Scientific Calculator GUI.
