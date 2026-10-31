@@ -16,7 +16,6 @@ The application will include three main components:
 
 - Python 3
 - PyQt5 (Graphical User Interface)
-- Matplotlib (Function Plotting)
 - Object-Oriented Programming (OOP)
 - GitHub (Version Control and Collaboration)
 
@@ -26,14 +25,14 @@ The project is organized into six main classes:
 
 | Class | Responsibility |
 |---|---|
-| BasicCalculator | Performs basic arithmetic operations |
-| ScientificCalculator | Inherits from BasicCalculator and performs scientific calculations |
+| CalculatorEngine | Performs basic arithmetic operations |
+| TrigonometryEngine | Inherits from BasicCalculator and performs scientific calculations |
 | MainWindow | Manages the graphical user interface |
 | EquationSolver | Solves two linear equations |
 | FunctionPlotter | Generates mathematical graphs |
 | InputValidator | Validates user inputs and handles invalid values |
 
-The project uses **inheritance**, where `ScientificCalculator` inherits from `BasicCalculator`.
+The project uses **inheritance**, where `TrigonometryEngine` inherits from `CalculatorEngine`.
 
 The graphical user interface is separated from the mathematical calculation logic to make the application easier to understand, test, and maintain.
 
@@ -85,9 +84,3 @@ Developed by the EE202 project team.
 - Member 2: PyQt GUI and MainWindow
 - Member 3: Equation Solver and Input Validation
 - Member 4: Function Plotting and Testing
-
-## Course Information
-
-**Course:** EE202 – Object-Oriented Computer Programming
-
-**Semester:** Fall 2026
