@@ -83,7 +83,7 @@ Developed by the EE202 project team.
 - Member 3: Abdulelah Aloufi
 - Member 4: Eyad Alzahrani
 
-## Team Responsibilites
+## Team Responsibilities
 ## Checkpoint 1:
 - Abdulrahman: Team member responsibilities and FunctionPlotter UML. 
 - Mohammed: MainWindow UML and CalculatorEngine UML. 
