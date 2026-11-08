@@ -3,7 +3,7 @@ import math
 
 class CalculatorEngine:
 
-  def __init__(self,answer):
+  def __init__(self):
     self.__answer = 0.0
 
   def Add(self, a, b):
