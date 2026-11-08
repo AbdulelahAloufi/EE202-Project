@@ -38,10 +38,10 @@ class TrigonometryEngine:
         self.__angleMode = mode
 
     def _convert_to_radians(self, value):
-        return math.radians(value) if self.angleMode == "Degree" else value
+        return math.radians(value) if self.__angleMode == "Degree" else value
 
     def _convert_from_radians(self, value):
-        return math.degrees(value) if self.angleMode == "Degree" else value
+        return math.degrees(value) if self.__angleMode == "Degree" else value
 
     def Sin(self, value): return math.sin(self._convert_to_radians(value))
     def Cos(self, value): return math.cos(self._convert_to_radians(value))
