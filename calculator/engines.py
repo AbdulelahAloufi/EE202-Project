@@ -60,15 +60,15 @@ class TrigonometryEngine(CalculatorEngine):
         super().__init__()
         self.__angleMode = "Degree"
 
-    @property
-    def angleMode(self):
+    
+    def GetAngleMode(self):
         return self.__angleMode
 
     def SetAngleMode(self, mode):
         if mode not in ("Degree", "Radian"):
             raise ValueError("Invalid angle mode.")
         self.__angleMode = mode
-
+    
     def _convert_to_radians(self, value):
         if self.__angleMode == "Degree":
             return math.radians(value)
