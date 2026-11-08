@@ -296,7 +296,7 @@ class CalculatorApp(QMainWindow):
     # Degree and Radian Modes
     def toggle_angle_mode(self):
 
-        if self.trigEngine.angleMode == "Degree":
+        if self.trigEngine.GetAngleMode() == "Degree":
             self.trigEngine.SetAngleMode("Radian")
             self.ui.btn_anglemode.setText("RAD")
 
