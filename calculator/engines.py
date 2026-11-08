@@ -2,7 +2,7 @@ import math
 
 class InputValidator:
     def __init__(self):
-        self.ErrorMessage = ""
+        self.__ErrorMessage = ""
 
     def validateNonZero(self, value):
         return value != 0
@@ -18,7 +18,7 @@ class InputValidator:
 
 class CalculatorEngine:
     def __init__(self):
-        self.answer = 0.0
+        self.__answer = 0.0
 
     def Add(self, a, b): return a + b
     def Subtract(self, a, b): return a - b
@@ -32,10 +32,10 @@ class CalculatorEngine:
 
 class TrigonometryEngine:
     def __init__(self):
-        self.angleMode = "Degree"
+        self.__angleMode = "Degree"
 
     def SetAngleMode(self, mode):
-        self.angleMode = mode
+        self.__angleMode = mode
 
     def _convert_to_radians(self, value):
         return math.radians(value) if self.angleMode == "Degree" else value
@@ -50,3 +50,4 @@ class TrigonometryEngine:
     def ArcSin(self, value): return self._convert_from_radians(math.asin(value))
     def ArcCos(self, value): return self._convert_from_radians(math.acos(value))
     def ArcTan(self, value): return self._convert_from_radians(math.atan(value))
+
