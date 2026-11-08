@@ -48,7 +48,8 @@ class CalculatorApp(QMainWindow):
         # --- Constants ---
         self.ui.btn_pi.clicked.connect(lambda: self.insert_constant(math.pi))
         self.ui.btn_e.clicked.connect(lambda: self.insert_constant(math.e))
-
+        self.ui.btn_ans.clicked.connect(self.insert_ans)
+        
         # --- Basic Math Operations ---
         self.ui.btn_add.clicked.connect(lambda: self.set_operation("+"))
         self.ui.btn_sub.clicked.connect(lambda: self.set_operation("-"))
