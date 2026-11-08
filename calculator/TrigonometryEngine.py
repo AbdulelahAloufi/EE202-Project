@@ -6,7 +6,9 @@ class TrigonometryEngine(CalculatorEngine):
        self.__angleMode = "Degree"
    def SetAngleMode(self, mode):
        self.__angleMode = mode
-
+      
+   def GetAngleMode(self):
+        return self.__angleMode
    def Sin(self, value):
        if self.__angleMode == "Degree":
            value = math.radians(value)
