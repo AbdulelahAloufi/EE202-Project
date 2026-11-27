@@ -2,10 +2,15 @@
 import sys
 import math
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QAction
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QMenu, QAction, QTabWidget,
+                             QWidget, QVBoxLayout, QHBoxLayout, QLabel,
+                             QComboBox, QLineEdit, QPushButton, QMessageBox)
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
 
 from gui.main_window import Ui_MainWindow
 from calculator.engines import CalculatorEngine, TrigonometryEngine, InputValidator
+from function_plotter import FunctionPlotter
 
 
 class CalculatorApp(QMainWindow):
@@ -21,6 +26,7 @@ class CalculatorApp(QMainWindow):
         self.calcEngine = CalculatorEngine()
         self.trigEngine = TrigonometryEngine()
         self.validator = InputValidator()
+        self.plotter = FunctionPlotter()
 
         # Application State Variables
         self.current_input = ""
@@ -34,6 +40,7 @@ class CalculatorApp(QMainWindow):
         # Connect Buttons to Methods
         self.connect_signals()
         self.setup_trig_menu()
+        self.setup_tabs()
 
     def connect_signals(self):
 
@@ -99,6 +106,73 @@ class CalculatorApp(QMainWindow):
             trig_menu.addAction(action)
 
         self.ui.btn_Trigonometry.setMenu(trig_menu)
+
+    # Navigation: one tab per major component
+    def setup_tabs(self):
+
+        # Take the Designer calculator layout out of the central slot
+        # and put it inside a tab widget together with the other modules.
+        calculator_page = self.takeCentralWidget()
+
+        self.tabs = QTabWidget()
+        self.tabs.addTab(calculator_page, "Scientific Calculator")
+
+        # self.tabs.addTab(equation_solver_page, "Equation Solver")  # Member 3
+        self.tabs.addTab(self.build_plot_page(), "Function Plotting")
+
+        self.setCentralWidget(self.tabs)
+
+    # Function Plotting Page
+    def build_plot_page(self):
+
+        self.plot_function_combo = QComboBox()
+        self.plot_function_combo.addItems(self.plotter.get_function_names())
+
+        self.plot_start_edit = QLineEdit("0")
+        self.plot_end_edit = QLineEdit("2*pi")
+        self.plot_button = QPushButton("Plot / Refresh")
+        self.plot_status_label = QLabel("")
+
+        controls = QHBoxLayout()
+        controls.addWidget(QLabel("Function:"))
+        controls.addWidget(self.plot_function_combo)
+        controls.addWidget(QLabel("From x ="))
+        controls.addWidget(self.plot_start_edit)
+        controls.addWidget(QLabel("To x ="))
+        controls.addWidget(self.plot_end_edit)
+        controls.addWidget(self.plot_button)
+
+        self.plot_figure = Figure(figsize=(6, 4), dpi=100)
+        self.plot_canvas = FigureCanvasQTAgg(self.plot_figure)
+
+        page = QWidget()
+        layout = QVBoxLayout(page)
+        layout.addLayout(controls)
+        layout.addWidget(self.plot_canvas)
+        layout.addWidget(self.plot_status_label)
+
+        # Signals / slots
+        self.plot_button.clicked.connect(self.on_plot_clicked)
+        self.plot_start_edit.returnPressed.connect(self.on_plot_clicked)
+        self.plot_end_edit.returnPressed.connect(self.on_plot_clicked)
+
+        return page
+
+    def on_plot_clicked(self):
+
+        try:
+            warning = self.plotter.plot(
+                self.plot_figure,
+                self.plot_function_combo.currentText(),
+                self.plot_start_edit.text(),
+                self.plot_end_edit.text())
+
+            self.plot_canvas.draw()
+            self.plot_status_label.setText(warning or "Plot updated.")
+
+        except ValueError as error:
+            QMessageBox.warning(self, "Plotting error", str(error))
+            self.plot_status_label.setText("Plot failed.")
 
     # Error Handling
     def show_error(self, message):
