@@ -10,7 +10,7 @@ from matplotlib.figure import Figure
 
 from gui.main_window import Ui_MainWindow
 from calculator.engines import CalculatorEngine, TrigonometryEngine, InputValidator
-from function_plotter import FunctionPlotter
+from modules.function_plotter import FunctionPlotter
 
 
 class CalculatorApp(QMainWindow):
