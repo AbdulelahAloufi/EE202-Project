@@ -11,7 +11,7 @@ from matplotlib.figure import Figure
 from gui.main_window import Ui_MainWindow
 from calculator.engines import CalculatorEngine, TrigonometryEngine, InputValidator
 from modules.function_plotter import FunctionPlotter
-
+from modules.equation_solver import EquationSolver
 
 class CalculatorApp(QMainWindow):
 
@@ -27,6 +27,7 @@ class CalculatorApp(QMainWindow):
         self.trigEngine = TrigonometryEngine()
         self.validator = InputValidator()
         self.plotter = FunctionPlotter()
+        self.solver = EquationSolver()
 
         # Application State Variables
         self.current_input = ""
@@ -119,8 +120,18 @@ class CalculatorApp(QMainWindow):
 
         # self.tabs.addTab(equation_solver_page, "Equation Solver")  # Member 3
         self.tabs.addTab(self.build_plot_page(), "Function Plotting")
+        self.tabs.addTab(self.build_solver_page(), "Equation Solver")
 
         self.setCentralWidget(self.tabs)
+
+        self.ui.btn_solver.clicked.connect(
+            lambda: self.tabs.setCurrentIndex(1)
+        )
+
+        self.ui.btn_plot.clicked.connect(
+            lambda: self.tabs.setCurrentIndex(2)
+        )
+
 
     # Function Plotting Page
     def build_plot_page(self):
@@ -173,6 +184,78 @@ class CalculatorApp(QMainWindow):
         except ValueError as error:
             QMessageBox.warning(self, "Plotting error", str(error))
             self.plot_status_label.setText("Plot failed.")
+
+  # Equation Solver Page
+    def build_solver_page(self):
+
+        page = QWidget()
+        layout = QVBoxLayout(page)
+
+        title = QLabel("Two Linear Equations Solver")
+        layout.addWidget(title)
+
+        self.solver_inputs = {}
+
+        examples = {
+            "a1": "2", "b1": "3", "c1": "12",
+            "a2": "1", "b2": "-1", "c2": "1"
+        }
+
+        for i in (1, 2):
+
+            row = QHBoxLayout()
+            row.addWidget(QLabel(f"Equation {i}:"))
+
+            for letter in ("a", "b", "c"):
+
+                name = f"{letter}{i}"
+
+                field = QLineEdit()
+                field.setPlaceholderText(name)
+                field.setText(examples[name])
+
+                self.solver_inputs[name] = field
+
+                row.addWidget(QLabel(name + ":"))
+                row.addWidget(field)
+
+            layout.addLayout(row)
+
+        self.solve_button = QPushButton("Solve Equations")
+        self.solver_result = QLabel("Result: ")
+
+        layout.addWidget(self.solve_button)
+        layout.addWidget(self.solver_result)
+        layout.addStretch()
+
+        self.solve_button.clicked.connect(self.on_solve_clicked)
+
+        return page
+
+    def on_solve_clicked(self):
+
+        try:
+            values = []
+
+            for name in ("a1", "b1", "c1", "a2", "b2", "c2"):
+                values.append(self.solver_inputs[name].text())
+
+            self.solver.set_equations(*values)
+            self.solver.solve()
+
+            x = self.solver.get_x()
+            y = self.solver.get_y()
+
+            self.solver_result.setText(
+                f"Result: x = {x:.6g}, y = {y:.6g}"
+            )
+
+        except ValueError as error:
+            self.solver_result.setText("Result: Error")
+            QMessageBox.warning(
+                self, "Equation Error", str(error)
+            )
+
 
     # Error Handling
     def show_error(self, message):
